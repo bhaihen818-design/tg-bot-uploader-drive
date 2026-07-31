@@ -2,11 +2,17 @@ FROM python:3.12-slim
 
 WORKDIR /app
 
-RUN apt-get update -qq && apt-get install -y -qq --no-install-recommends \
+RUN apt-get update && apt-get install -y --no-install-recommends \
     ffmpeg \
+    gcc \
+    g++ \
+    build-essential \
+    python3-dev \
     && rm -rf /var/lib/apt/lists/*
 
 COPY requirements.txt .
+
+RUN python -m pip install --upgrade pip setuptools wheel
 RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
